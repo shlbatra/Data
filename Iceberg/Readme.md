@@ -1,0 +1,26 @@
+- Apache Iceberg is an open table format designed for huge, petabyte-scale tables
+- The function of a table format is to determine how you manage, organise and track all of the files that make up a table. 
+- You can think of it as an abstraction layer between your physical data files (written in Parquet or ORC etc.) and how they are structured to form a table.
+- Iceberg keeps track of a complete list of all files within a table using a persistent tree structure.
+- Data Stored as :
+    - Snapshot metadata file: contains metadata about the table like the table schema, the partition specification as well as a path to the manifest list.
+    - Manifest list: contains an entry for each manifest file associated with the snapshot. Each entry includes a path to the manifest file and some metadata about the file, including partition stats and data file counts. These stats can be used to avoid reading manifests that aren’t required for an operation.
+    - Manifest file: contains a list of paths to related data files. Each entry for a data file includes some metadata about the file, such as per-column upper and lower bounds which can be used to prune files during query planning.
+    - Data file: the physical data file, written in formats like Parquet, ORC, Avro etc.
+- Iceberg can guarantee isolated reads and writes
+- Readers will always see a consistent version of the data (i.e. no ‘dirty reads’) without the need to lock the table. Writers work in isolation, not affecting the live table and will perform a metadata swap only when the write is complete, making the changes in one atomic commit. 
+- Use of snapshots also enables time-travel operations as users can perform various operations on different versions of the table by specifying the snapshot to use.
+- Create iceberg table, we need 
+    - schema
+    - partition spec
+    - tableidentifier
+    - catalog options 
+        - hadoop
+        - hive
+        - spark
+- partition evolution (from month to date partition with time)
+- Expressive SQL 
+- Hidden Partitioning
+- Time Travel  (log of prev snapshots to query against)
+- Schema Evolution
+- Data Compaction 
